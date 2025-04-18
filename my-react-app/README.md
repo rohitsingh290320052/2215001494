@@ -1,2 +1,2 @@
-Social Media Analytic
+Social Media Analytic.
 Average Calculator Http Microservices
