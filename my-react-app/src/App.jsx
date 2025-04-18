@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showTopUsers, setShowTopUsers] = useState(false)
 
   return (
     <>
@@ -18,17 +18,39 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => setShowTopUsers(true)}>
+          Show Top Users
         </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>
+        {showTopUsers && <TopUsers />}
+      </div>
     </>
+  )
+}
+
+function TopUsers() {
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    fetch('http://20.244.56.144/evaluation-service/register')
+      .then((response) => response.json())
+      .then((data) => setUsers(data))
+      .catch((error) => console.error('Error fetching users:', error))
+  }, [])
+
+  return (
+    <div>
+      <h2>Top Users</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
